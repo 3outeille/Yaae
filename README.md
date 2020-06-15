@@ -11,11 +11,9 @@ virtualenv myenv
 source myenv/bin/activate
 ```
 
-- Install **requirements.txt**
+- Install **requirements.txt**.
 
 ```bash
-# On Linux.
-# Using virtualenv.
 pip install -r requirements.txt
 ```
 
