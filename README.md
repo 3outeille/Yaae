@@ -1,1 +1,1 @@
-Yaae: Yet another autograd engine
+Yaae: Yet another autodiff engine
