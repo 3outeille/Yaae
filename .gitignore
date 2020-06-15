@@ -1,3 +1,4 @@
-env/
+myenv/
 __pycache__/
 .vscode/
+Yaae.egg-info
