@@ -15,6 +15,8 @@ source myenv/bin/activate
 
 ```bash
 pip install -r requirements.txt
+# Tidy up the root folder.
+python3 setup.py clean
 ```
 
 <!---
