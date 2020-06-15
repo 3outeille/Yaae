@@ -5,11 +5,10 @@
 - Create a virtual environnment in the root folder using [virtualenv][virtualenv] and activate it.
 
 ```bash
-# On Linux,
-# Using virtualenv.
->>> virtualenv myenv
+# On Linux terminal, using virtualenv.
+virtualenv myenv
 # Activate it.
->>> source myenv/bin/activate
+source myenv/bin/activate
 ```
 
 - Install **requirements.txt**
