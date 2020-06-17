@@ -1,8 +1,6 @@
 # Yaae: Yet another autodiff engine
 
-<div style="text-align: center">
-    <img src="img/logo.png">
-</div>
+<img src="./img/logo.png" hspace="20%" width="60%">
 
 ## Installation
 
