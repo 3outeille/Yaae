@@ -1,6 +1,6 @@
-# Yaae: Yet another autodiff engine
-
 <img src="./img/logo.png" hspace="30%" width="40%">
+
+Yaae: Yet another autodiff engine written in Numpy.
 
 ## Installation
 
