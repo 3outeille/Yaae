@@ -1,5 +1,9 @@
 # Yaae: Yet another autodiff engine
 
+<div style="text-align: center">
+    <img src="img/logo.png">
+</div>
+
 ## Installation
 
 - Create a virtual environment in the root folder using [virtualenv][virtualenv] and activate it.
