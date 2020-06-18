@@ -1,4 +1,4 @@
-from src.yaae_tensor.utils import topo_sort
+from src.yaae.utils import topo_sort
 import numpy as np
 
 class Node:
@@ -6,7 +6,7 @@ class Node:
     def __init__(self, value, children=[]):
         self.val = value if isinstance(value, np.ndarray) else np.array(value)
         self.children = children
-        self.grad = np.zeros_like(self.val, dtype=np.float64)
+        self.grad = np.zeros_like(self.val, dtype=np.float64) if isinstance(value, np.ndarray) else 0
         # Stores function.
         self._compute_derivatives = lambda: None
 
