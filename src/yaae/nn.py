@@ -1,6 +1,25 @@
 from src.yaae.engine import Node
 import numpy as np
 
+
+class Optimizer:
+    
+    def __init__(self, params, lr):
+        self.params = params
+        self.lr = lr
+
+    def zero_grad(self):
+        for W, b in self.params.values():
+            W.zero_grad()
+            b.zero_grad()
+
+    def step(self):
+        for W, b in self.params.values():       
+            W.data -= self.lr * W.grad.data
+            b.data -= self.lr * b.grad.data
+            # W -= self.lr * W.grad
+            # b -= self.lr * b.grad
+
 class Linear():
     
     def __init__(self, name, row, column, isLastLayer=False):
@@ -10,23 +29,22 @@ class Linear():
         self.isLastLayer = isLastLayer
 
         bound = 1 / np.sqrt(self.row)
-        self.W = Node(np.random.uniform(-bound, bound, size=(row, column)))
-        self.b = Node(0)
+        self.W = Node(np.random.uniform(-bound, bound, size=(row, column)), requires_grad=True)
+        self.b = Node(0., requires_grad=True)
 
     def __call__(self, X):
         act = X.matmul(self.W) + self.b
-        return act.relu() if not self.isLastLayer else act
+        return act.relu() if not self.isLastLayer else act.sigmoid()
         
     def __repr__(self):
         return f"({self.name}): Linear(row={self.row}, column={self.col}, isLastLayer={self.isLastLayer})\n"
         
-
-class NN():
+class NN:
 
     def __init__(self, nin, nouts):
         sizes = [nin] + nouts
         self.layers = [Linear(f'Linear{i}', sizes[i], sizes[i+1], isLastLayer=(i == len(nouts)-1)) for i in range(len(nouts))]
-    
+
     def __call__(self, X):
         out = X
         for layer in self.layers:
@@ -40,13 +58,8 @@ class NN():
         s += ")"
         return s
 
-class Optimizer():
-    
-    def __init__(self):
-        pass
-
-    def zero_grad(self):
-        pass
-
-    def step(self):
-        pass
+    def parameters(self):
+        params = {}
+        for i, layer in enumerate(self.layers):
+            params[f'Linear{i}'] = layer.W, layer.b
+        return params

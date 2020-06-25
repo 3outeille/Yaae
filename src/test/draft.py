@@ -1,3 +1,6 @@
+import torch
+import numpy as np
+from src.yaae.engine import Node
 
 def test_scalar_sin():
     w1 = Node(2.)
@@ -368,4 +371,4 @@ def test_tensor_cross_entropy_loss():
 # test_tensor_add_relu()
 # test_tensor_mul()
 # test_tensor_mul_relu()
-# test_tensor_cross_entropy_loss()
+test_tensor_cross_entropy_loss()
