@@ -162,6 +162,7 @@ class Add():
             self.node2.grad.data += compress_gradient(self.out.grad.data, self.node2.shape)
 
 class Sum():
+
     def __init__(self, node1, axis=None, keepdims=True):
         self.node1 = node1 if isinstance(node1, Node) else Node(node1)
         self.axis = axis
@@ -227,6 +228,7 @@ class Neg():
             self.node1.grad.data += -self.out.grad.data * np.ones_like(self.node1.data)
 
 class Div():
+
     def __init__(self, node1, node2):
         self.node1 = node1 if isinstance(node1, Node) else Node(node1)
         self.node2 = node2 if isinstance(node2, Node) else Node(node2)
@@ -290,6 +292,7 @@ class Log():
         self.node1.grad.data += self.out.grad.data * (1/self.node1.data)
 
 class Sigmoid():
+
     def __init__(self, node1):
         self.node1 = node1 if isinstance(node1, Node) else Node(node1)
 
