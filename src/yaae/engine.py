@@ -111,9 +111,6 @@ class Node:
         out._compute_derivatives = op.compute_derivatives
         return out
     
-    def __pow__(self, other):
-        raise NotImplementedError
-
     # Functions.
     def sin(self):
         op = Sin(self)
@@ -160,11 +157,9 @@ class Add():
 
     def compute_derivatives(self):
         if self.node1.requires_grad:
-            self.node1.grad.data += compress_gradient(self.out.grad.data, self.node1.data)
+            self.node1.grad.data += compress_gradient(self.out.grad.data, self.node1.shape)
         if self.node2.requires_grad:
-            self.node2.grad.data += compress_gradient(self.out.grad.data, self.node2.data)
-        # self.node1.grad.data += self.out.grad.data
-        # self.node2.grad.data += self.out.grad.data
+            self.node2.grad.data += compress_gradient(self.out.grad.data, self.node2.shape)
 
 class Sum():
     def __init__(self, node1, axis=None, keepdims=True):
@@ -194,11 +189,9 @@ class Mul():
 
     def compute_derivatives(self):
         if self.node1.requires_grad:
-            # self.node1.grad.data += self.out.grad.data * self.node2.data
-            self.node1.grad.data += compress_gradient(self.out.grad.data, self.node2.data) * self.node2.data
+            self.node1.grad.data += compress_gradient(self.out.grad.data, self.node2.shape) * self.node2.data
         if self.node2.requires_grad:
-            # self.node2.grad.data += self.out.grad.data * self.node1.data
-            self.node2.grad.data += compress_gradient(self.out.grad.data, self.node1.data) * self.node1.data
+            self.node2.grad.data += compress_gradient(self.out.grad.data, self.node1.shape) * self.node1.data
 
 class Matmul():
 
@@ -217,10 +210,8 @@ class Matmul():
 
         if self.node1.requires_grad:
             self.node1.grad.data = self.out.grad.data @ self.node2.data.transpose(dim)
-            # self.node1.grad.data = self.out.grad.data @ self.node2.data.T
         if self.node2.requires_grad:
             self.node2.grad.data = self.node1.data.transpose(dim) @ self.out.grad.data
-            # self.node2.grad.data = self.node1.data.T @ self.out.grad.data
 
 class Neg():
 
@@ -232,8 +223,6 @@ class Neg():
         return self.out
 
     def compute_derivatives(self):
-        # if self.node1.requires_grad:
-        # return -self.node1.grad.data
         if self.node1.requires_grad:
             self.node1.grad.data += -self.out.grad.data * np.ones_like(self.node1.data)
 
@@ -248,11 +237,10 @@ class Div():
 
     def compute_derivatives(self):
         if self.node1.requires_grad:
-            # self.node1.grad.data += self.out.grad.data * 1/(self.node2.data)
-            self.node1.grad.data += compress_gradient(self.out.grad.data, self.node1.data) * 1/(self.node2.data)
+            self.node1.grad.data += compress_gradient(self.out.grad.data, self.node1.shape) * 1/(self.node2.data)
         if self.node2.requires_grad:
-            # self.node2.grad.data += self.out.grad.data * -self.node1.data/(self.node2.data)**2
-            self.node2.grad.data += compress_gradient(self.out.grad.data, self.node2.data) * -self.node1.data/(self.node2.data)**2
+            self.node2.grad.data += compress_gradient(self.out.grad.data, self.node2.shape) * -self.node1.data/(self.node2.data)**2
+
 class Sin():
 
     def __init__(self, node1):
@@ -306,13 +294,9 @@ class Sigmoid():
         self.node1 = node1 if isinstance(node1, Node) else Node(node1)
 
     def forward_pass(self):
-        # Numerically stable sigmoid.
-        # f = np.where(self.node1.data >= 0, 1. / (1. + np.exp(-self.node1.data)), np.exp(self.node1.data) / (1. + np.exp(self.node1.data)))
-        # self.out = Node(f, children=[self.node1])
         self.out = Node(1. / (1. + np.exp(-self.node1.data)), children=[self.node1])
         return self.out
 
     def compute_derivatives(self):
-        # f = np.where(self.node1.data >= 0, 1. / (1. + np.exp(-self.node1.data)), np.exp(self.node1.data) / (1. + np.exp(self.node1.data)))
         f = 1. / (1. + np.exp(-self.node1.data))
         self.node1.grad.data += self.out.grad.data * f * (1 - f)

@@ -17,8 +17,6 @@ class Optimizer:
         for W, b in self.params.values():       
             W.data -= self.lr * W.grad.data
             b.data -= self.lr * b.grad.data
-            # W -= self.lr * W.grad
-            # b -= self.lr * b.grad
 
 class Linear():
     
