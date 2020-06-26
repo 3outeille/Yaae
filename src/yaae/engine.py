@@ -177,9 +177,10 @@ class Sum():
         return self.out
 
     def compute_derivatives(self):
-        # if self.axis != None:
-            # self.out.grad.data = np.expand_dims(self.out.grad.data, self.axis)
-        self.node1.grad.data += self.out.grad.data * np.ones_like(self.node1.data)
+        if self.axis != None and self.keepdims == False:
+            self.node1.grad.data += np.expand_dims(self.out.grad.data, self.axis) * np.ones_like(self.node1.data)
+        else:
+            self.node1.grad.data += self.out.grad.data * np.ones_like(self.node1.data)
 
 class Mul():
 
@@ -227,10 +228,14 @@ class Neg():
         self.node1 = node1 if isinstance(node1, Node) else Node(node1)
    
     def forward_pass(self):
-        return Node(-self.node1.data, children=[self.node1])
+        self.out = Node(-self.node1.data, children=[self.node1])
+        return self.out
 
     def compute_derivatives(self):
-        return -self.node1.data
+        # if self.node1.requires_grad:
+        # return -self.node1.grad.data
+        if self.node1.requires_grad:
+            self.node1.grad.data += -self.out.grad.data * np.ones_like(self.node1.data)
 
 class Div():
     def __init__(self, node1, node2):
@@ -270,7 +275,7 @@ class ReLU():
         return self.out
 
     def compute_derivatives(self):
-        self.node1.grad.data += (self.out.data > 0) * self.out.grad.data
+        self.node1.grad.data += self.out.grad.data * (self.node1.data > 0)
 
 class Exp():
 

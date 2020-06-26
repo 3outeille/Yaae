@@ -28,8 +28,7 @@ class Linear():
         self.col = column
         self.isLastLayer = isLastLayer
 
-        bound = 1 / np.sqrt(self.row)
-        self.W = Node(np.random.uniform(-bound, bound, size=(row, column)), requires_grad=True)
+        self.W = Node(np.random.uniform(-1., 1., size=(row, column)), requires_grad=True)
         self.b = Node(0., requires_grad=True)
 
     def __call__(self, X):

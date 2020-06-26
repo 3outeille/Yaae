@@ -69,31 +69,30 @@ def test_add():
 def test_sum():
     # Yaae.
     n1 = Node([
-                [1,2,3],
-                [1,2,3]
+                [1.,2.,3.],
+                [1.,2.,3.]
             ], requires_grad=True)
-    n2 = n1.sum(axis=1)
-    n2.backward(Node([[3], [3]], requires_grad=False))
+    n2 = n1.sum(axis=1, keepdims=False)
+    n2.backward(Node([10.,20.], requires_grad=False))
     n1_yaae, n2_yaae = n1, n2
+
     # Pytorch.
     n1 = torch.Tensor([
-                        [1,2,3],
-                        [1,2,3]
+                        [1.,2.,3.],
+                        [1.,2.,3.]
                     ])
     n1.requires_grad = True
     n2 = n1.sum(axis=1)
     n2.retain_grad()
-    n2.backward(torch.Tensor([3,3]))
+    n2.backward(torch.Tensor([10.,20.]))
     n1_torch, n2_torch = n1, n2
-    print(n2_torch.grad.data.numpy())
-    print(n1_torch.grad.data.numpy())
-    
+
     # Forward pass.
     assert (n2_yaae.data == n2_torch.data.numpy()).all()
     # Backward pass.
     assert (n2_yaae.grad.data == n2_torch.grad.data.numpy()).all()
     assert (n1_yaae.grad.data == n1_torch.grad.data.numpy()).all()
-
+    
 @register_test
 def test_mul():
     # Yaae.
@@ -183,29 +182,31 @@ def test_neg():
     # Yaae.
     n1 = Node([
                 [
-                    [1, 2, 3],
-                    [1, 2, 3]
+                    [1., 2., 3.],
+                    [1., 2., 3.]
                 ]
             ], requires_grad=True)
     n2 = -n1
-    n2.backward(np.zeros_like(n1.data))
+    n2.backward(np.ones_like(n1.data))
     n1_yaae, n2_yaae = n1, n2
 
     # Pytorch.
     n1 = torch.Tensor([
                         [
-                            [1, 2, 3],
-                            [1, 2, 3]
+                            [1., 2., 3.],
+                            [1., 2., 3.]
                         ]
                     ])
     n1.requires_grad = True
     n2 = -n1
-    n2.backward(torch.zeros_like(n1.data))
+    n2.retain_grad()
+    n2.backward(torch.ones_like(n1.data))
     n1_torch, n2_torch = n1, n2
 
     # Forward pass.
     assert (n2_yaae.data == n2_torch.data.numpy()).all()
     # Backward pass.
+    assert (n2_yaae.grad.data == n2_torch.grad.data.numpy()).all()
     assert (n1_yaae.grad.data == n1_torch.grad.data.numpy()).all()
 
 @register_test
@@ -263,7 +264,7 @@ def test_relu():
     n2 = n1.relu()
     n2.backward(Node([-1, -2, -3], requires_grad=False))
     n1_yaae, n2_yaae = n1, n2
-
+    
     # Pytorch.
     n1 = torch.Tensor([1, 2, 3])
     n1.requires_grad = True
@@ -474,6 +475,7 @@ def test_linear_regression():
 #     assert np.isclose(b_yaae.grad.data, b_torch.grad.data.numpy(), rtol=1e-06, atol=0).all()
 #     assert np.isclose(c_yaae.grad.data, c_torch.grad.data.numpy(), rtol=1e-06, atol=0).all()
 #     assert np.isclose(d_yaae.grad.data, d_torch.grad.data.numpy(), rtol=1e-06, atol=0).all()
+
 
 for name, test in test_registry.items():
     print(f'Running {name}:', end=" ")
