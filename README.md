@@ -2,7 +2,7 @@
 
 ## Introduction
 
-- Yaae (Yet another autodiff engine) is an [automatic differentiation][automatic-diff] engine written in Numpy which comes with a small neural networks library. It supports scalar operations as well as tensors operations and comes with various functions such as exp, relu, sigmoid ... For educational puprose only.
+- Yaae (Yet another autodiff engine) is an [automatic differentiation][automatic-diff] engine written in Numpy which comes with a small neural networks library. It supports scalar operations as well as tensors operations and comes with various functions such as exponential, relu, sigmoid ... For educational puprose only.
 
 ## Quickstart
 
