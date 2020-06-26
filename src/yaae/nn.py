@@ -1,7 +1,6 @@
 from src.yaae.engine import Node
 import numpy as np
 
-
 class Optimizer:
     
     def __init__(self, params, lr):
