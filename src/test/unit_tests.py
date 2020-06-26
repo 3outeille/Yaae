@@ -346,6 +346,36 @@ def test_sigmoid():
     assert np.isclose(n1_yaae.grad.data, n1_torch.grad.data.numpy()).all
 
 @register_test
+def test_scalar():
+    # Yaae.
+    w1 = Node(2, requires_grad=True)
+    w2 = Node(3, requires_grad=True)
+    w3 = w2 * w1
+    w4 = w1.sin()
+    w5 = w3 + w4
+    z = w5
+    z.backward()
+    w1_yaae, w2_yaae, z_yaae = w1, w2, z
+    
+    # Pytorch.
+    w1 = torch.Tensor([2]).double()
+    w1.requires_grad = True
+    w2 = torch.Tensor([3]).double()
+    w2.requires_grad = True
+    w3 = w2 * w1
+    w4 = w1.sin()
+    w5 = w3 + w4
+    z = w5
+    z.backward()
+    w1_torch, w2_torch, z_torch = w1, w2, z
+    
+    # Forward pass.
+    assert z_yaae.data == z_torch.data.item()
+    # Backward pass.
+    assert w1_yaae.grad.data ==  w1_torch.grad.item()
+    assert w2_yaae.grad.data == w2_torch.grad.item()
+
+@register_test
 def test_linear_regression():
 
     # Generate data.
