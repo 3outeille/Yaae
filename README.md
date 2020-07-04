@@ -4,6 +4,8 @@
 
 - Yaae (Yet another autodiff engine) is an [automatic differentiation][automatic-diff] engine written in Numpy which comes with a small neural networks library. It supports scalar operations as well as tensors operations and comes with various functions such as exponential, relu, sigmoid ... For educational puprose only.
 
+- Here is my [blog post][blog-post] explaining how an automatic differentiation works and my design/implementation choices.
+
 ## Quickstart
 
 - Let's compare a simple example using Yaae and Pytorch.
@@ -68,6 +70,7 @@ Variables with links.
 -->
 
 [automatic-diff]: https://en.wikipedia.org/wiki/Automatic_differentiation
+[blog-post]: https://hackmd.io/@bouteille/H19MWi_A8
 [demo_regression]: https://github.com/3outeille/Yaae/blob/master/src/example/demo_regression.ipynb
 [demo_classification]: https://github.com/3outeille/Yaae/blob/master/src/example/demo_classification.ipynb
 [virtualenv]: https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
