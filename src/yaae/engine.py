@@ -69,8 +69,7 @@ class Node:
         out = op.forward_pass()
         out._compute_derivatives = op.compute_derivatives
         return out
-
-
+    
     def matmul(self, other):
         op = Matmul(self, other)
         out = op.forward_pass()
