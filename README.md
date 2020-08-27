@@ -52,9 +52,9 @@ assert w2_yaae.grad.data == w2_torch.grad.item() # True.
 
 ```bash
 # On Linux terminal, using virtualenv.
-virtualenv myenv
+virtualenv my_yaae_env
 # Activate it.
-source myenv/bin/activate
+source my_yaee_env/bin/activate
 ```
 
 - Install **requirements.txt**.
