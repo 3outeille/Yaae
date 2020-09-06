@@ -48,7 +48,7 @@ assert w2_yaae.grad.data == w2_torch.grad.item() # True.
 
 - If you are still skeptical, here is my [GAN][gan] implemented with Yaae.
 
-![](./img/generation_animation.gif)
+<img src="./img/generation_animation.gif" hspace="25%" width="50%">
 
 ## Installation
 
