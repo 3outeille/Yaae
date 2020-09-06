@@ -46,6 +46,10 @@ assert w2_yaae.grad.data == w2_torch.grad.item() # True.
 
 ![](./img/regression.png) ![](./img/classification.png)
 
+- If you are still skeptical, here is my [GAN][gan] implemented with Yaae.
+
+![](./img/generation_animation.gif)
+
 ## Installation
 
 - Create a virtual environment in the root folder using [virtualenv][virtualenv] and activate it.
@@ -73,4 +77,5 @@ Variables with links.
 [blog-post]: https://hackmd.io/@bouteille/H19MWi_A8
 [demo_regression]: https://github.com/3outeille/Yaae/blob/master/src/example/demo_regression.ipynb
 [demo_classification]: https://github.com/3outeille/Yaae/blob/master/src/example/demo_classification.ipynb
+[gan]: https://github.com/3outeille/GANumpy
 [virtualenv]: https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
