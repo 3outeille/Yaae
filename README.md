@@ -44,7 +44,9 @@ assert w2_yaae.grad.data == w2_torch.grad.item() # True.
 
 - The files [demo_regression.ipynb][demo_regression] and [demo_classification.ipynb][demo_classification] are simple regression/classification problems solved using Yaae. As shown in the notebooks, here are the the results:
 
-![](./img/regression.png) ![](./img/classification.png)
+
+<img src="./src/example/regression/reg.gif" hspace="25%" width="50%">
+<img src="./src/example/classification/class.gif" hspace="25%" width="50%">
 
 - If you are still skeptical, here is my [GAN][gan] implemented with Yaae.
 
