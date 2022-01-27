@@ -76,7 +76,7 @@ Variables with links.
 -->
 
 [automatic-diff]: https://en.wikipedia.org/wiki/Automatic_differentiation
-[blog-post]: https://hackmd.io/@bouteille/H19MWi_A8
+[blog-post]: https://hackmd.io/@machine-learning/blog-post-yaae
 [demo_regression]: https://github.com/3outeille/Yaae/blob/master/src/example/demo_regression.ipynb
 [demo_classification]: https://github.com/3outeille/Yaae/blob/master/src/example/demo_classification.ipynb
 [gan]: https://github.com/3outeille/GANumpy
